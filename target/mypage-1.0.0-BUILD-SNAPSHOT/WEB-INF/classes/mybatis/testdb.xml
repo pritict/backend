@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding= "UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ 
+<mapper namespace="com.web.mapper.TestMapper">
+ 
+    <resultMap type="com.web.mypage.dao.TestDAO" id="TestResult">
+        <result property="no" column="no" />
+        <result property="name" column="name" />
+        <result property="text" column="text"/>
+    </resultMap>
+ 
+    <select id="selectTest" resultType="com.web.mypage.dao.TestDAO">
+        SELECT no, name, text FROM test
+    </select>
+ 
+    <insert id="inserTest" parameterType="com.web.mypage.dao.TestDAO">
+        INSERT into test (name, text) values(#{name}, #{text})
+    </insert>
+</mapper>

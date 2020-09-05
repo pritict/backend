@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding= "UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ 
+<mapper namespace="com.web.mapper.TodoMapper">
+ 
+    <resultMap type="com.web.mypage.dto.TodoDTO" id="TodoResult">
+        <result property="num" column="num" />
+        <result property="title" column="title" />
+        <result property="detail" column="detail"/>
+        <result property="done" column="done"/>
+        <result property="createdt" column="createdt"/>
+        <result property="updatedt" column="updatedt"/>
+    </resultMap>
+ 
+    <select id="selectTodoList" resultType="com.web.mypage.dto.TodoDTO">
+        SELECT num, title, detail, done, createdt, updatedt FROM todo
+    </select>
+
+	<select id="selectTodo" resultType="com.web.mypage.dto.TodoDTO">
+        SELECT num, title, detail, done, createdt, updatedt FROM todo where num = #{num}
+	</select>
+    <insert id="inserTodo" parameterType="com.web.mypage.dto.TodoDTO">
+        INSERT into test (title, detail, done, createdt, updatedt) values(#{title}, #{detail}, #{doen}, now(), now())
+    </insert>
+</mapper>
