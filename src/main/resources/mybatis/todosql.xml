@@ -22,6 +22,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT num, title, detail, done, createdt, updatedt FROM todo where num = #{num}
 	</select>
     <insert id="inserTodo" parameterType="com.web.mypage.dto.TodoDTO">
-        INSERT into test (title, detail, done, createdt, updatedt) values(#{title}, #{detail}, #{doen}, now(), now())
+        INSERT into todo (title, detail, createdt, updatedt) values(#{title}, #{detail}, now(), now())
     </insert>
+    <delete id="deleteTodo" parameterType="int">
+        DELETE FROM todo where num = #{num}
+    </delete>
+    <update id="updateTodo" parameterType="com.web.mypage.dto.TodoDTO">
+        UPDATE todo SET title = #{title}, detail = #{detail}, done = #{done}, updatedt = #{updatedt} where num = #{num}
+    </update>
 </mapper>

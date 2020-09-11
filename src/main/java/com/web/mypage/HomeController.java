@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +17,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,7 +49,6 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		
@@ -81,6 +83,47 @@ public class HomeController {
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			return null;
+		}
+	}
+
+	@RequestMapping(value = "/addtodo", method = RequestMethod.POST)
+	@ResponseBody
+	public int addTodo(@RequestBody Map<String, String> map) {
+		try {
+			String title = map.get("title");
+			String detail = map.get("detail");
+			if(title == null || detail == null) {
+				return 0;
+			}
+			return todoDAO.addTodo(title, detail);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return 0;
+		}
+	}
+
+	@RequestMapping(value = "/deletetodo", method = RequestMethod.DELETE)
+	@ResponseBody
+	public int deleteTodo(@RequestParam Integer num) {
+		try {
+			if(num == null) {
+				return 0;
+			}
+			return todoDAO.deleteTodo(num.intValue());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return 0;
+		}
+	}
+
+	@RequestMapping(value = "/updatetodo", method =  RequestMethod.PUT)
+	@ResponseBody
+	public int updateTodo(@RequestBody Map<String, String> map) {
+		try {
+			return todoDAO.updateTodo(map);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return 0;
 		}
 	}
 
